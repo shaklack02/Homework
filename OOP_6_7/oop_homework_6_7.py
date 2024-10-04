@@ -2,22 +2,25 @@
 
 from abc import ABC, abstractmethod
 from enum import Enum
+
+
 class BankNames(Enum):
     Hapoalim = "Bank Hapoalim"
     Leomi = "Bank Leomi"
     Discount = "Bank Discount"
 
+
 class CompnayCuatomer:
-    def __init__(self, id, name, bank_name, amount_of_money):
-        self._companyCustomer_id = id
+    def __init__(self, company_customer_id: int, name: str, bank_name: BankNames, amount_of_money: int):
+        self._companyCustomer_id = company_customer_id
         self._companyCustomer_name = name
         self._companyCustomer_Bank_name = bank_name
         self._companyCustomer_amount_of_money = amount_of_money
 
 
 class Customer:
-    def __init__(self, id, first_name, last_name, bank_name, credit_card_number, amount_of_money):
-        self._customer_id = id
+    def __init__(self, customer_id: int, first_name: str, last_name: str, bank_name: BankNames, credit_card_number: int, amount_of_money: int):
+        self._customer_id = customer_id
         self._customer_first_name = first_name
         self._customer_last_name = last_name
         self._customer_Bank_name = bank_name
@@ -26,13 +29,13 @@ class Customer:
 
 
 class Bank:
-    def __init__(self, id, name : BankNames, amount_of_employees, revenue, expenses, bank_customers: []):
-        self._bank_id = id
+    def __init__(self, bank_id: int, name: BankNames, amount_of_employees: int, revenue: int, expenses: int, bank_customers: []):
+        self._bank_id = bank_id
         self._bank_name = name
         self._bank_number_of_employees = amount_of_employees
         self._bank_amount_of_revenue = revenue
         self._bank_amount_of_expenses = expenses
-        self._bank_customers = bank_customers # must have at lest 3 costomers
+        self._bank_customers = bank_customers  # must have at lest 3 costomers
 
     def take_payment(self, customer: Customer, payment: int):
         # take payment from existing customer
