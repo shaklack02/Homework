@@ -16,8 +16,17 @@ class CompanyCustomer:
         self._company_customer_amount_of_money = company_amount_of_money
 
     @property
+    def company_customer_name(self):
+        return self._company_customer_name
+
+    @property
     def company_customer_amount_of_money(self):
         return self._company_customer_amount_of_money
+
+    @company_customer_amount_of_money.setter
+    def company_customer_amount_of_money(self, amount):
+        self._company_customer_amount_of_money = amount
+
 
     def get_payment(self, salary: int):
         # Add salary to company amount of money
@@ -33,6 +42,11 @@ class Customer:
         self._customer_bank_name = bank_name
         self._customer_credit_card_number = credit_card_number
         self._customer_amount_of_money = amount_of_money
+
+
+    @property
+    def customer_bank_name(self):
+        return self._customer_bank_name
 
     @property
     def customer_amount_of_money(self):
@@ -59,14 +73,19 @@ class Bank(ABC):
 
     def take_payment(self, customer, payment: int):
         # Check if customer belongs to the bank
-        if customer not in self._bank_customers or self._bank_name != customer._customer_bank_name:
-            print(f"Sorry, {customer._customer_first_name} is not a member of this bank.")
-            return
+        if isinstance(customer, CompanyCustomer):
+            if customer not in self._bank_customers or self._bank_name != customer.company_customer_name:
+                print(f"Sorry, {customer.company_customer_name} is not a member of this bank.")
+                return
+        else:
+            if customer not in self._bank_customers or self._bank_name != customer.customer_bank_name:
+                print(f"Sorry, {customer.customer_bank_name} is not a member of this bank.")
+                return
 
         if isinstance(customer, Customer):
             self._bank_amount_of_revenue += payment
             customer.customer_amount_of_money -= payment
-        elif isinstance(customer, CompanyCustomer) and isinstance(self, BankDiscount):
+        elif isinstance(customer, CompanyCustomer) and self._bank_name == BankNames.Discount:
             self._bank_amount_of_revenue += payment
             customer.company_customer_amount_of_money -= payment
         else:
@@ -84,6 +103,7 @@ class Bank(ABC):
 
 
 class BankHapoalim(Bank):
+    # IF subclass init not defined than automatically the parent init will be called
     def calculate_customer_money(self):
         customers_money_sum = 0
         for customer in self._bank_customers:
@@ -113,6 +133,8 @@ class BankDiscount(Bank):
                 customers_money_sum += customer.customer_amount_of_money
             elif isinstance(customer, CompanyCustomer):
                 customers_money_sum += customer.company_customer_amount_of_money
+            else:
+                TypeError(f"Unsupported customer")
         self._bank_amount_of_revenue = customers_money_sum
 
 
