@@ -3,31 +3,19 @@
 from abc import ABC, abstractmethod
 from enum import Enum
 
+
 class BankNames(Enum):
     Hapoalim = "Bank Hapoalim"
     Leomi = "Bank Leomi"
     Discount = "Bank Discount"
 
-class CompnayCuatomer:
-    def __init__(self, company_customer_id, company_customer_name, company_customer_bank_name,
-                 company_customer_amount_of_money):
-        self.company_customer_id = company_customer_id
-        self.company_customer_name = company_customer_name
-        self.company_customer_bank_name = company_customer_bank_name
-        self.company_customer_amount_of_money = company_customer_amount_of_money
 
-    # TODO
-    def get_payment(salary: int):
-        pass
-
-
-
-class CompnayCuatomer:
-    def __init__(self, company_customer_id: int, name: str, bank_name: BankNames, amount_of_money: int):
+class CompanyCustomer:
+    def __init__(self, company_customer_id: int, name: str, bank_name: BankNames, company_amount_of_money: int):
         self._companyCustomer_id = company_customer_id
         self._companyCustomer_name = name
         self._companyCustomer_Bank_name = bank_name
-        self._companyCustomer_amount_of_money = amount_of_money
+        self._companyCustomer_amount_of_money = company_amount_of_money
 
     @property
     def company_customer_amount_of_money(self):
@@ -97,11 +85,11 @@ class Bank:
 
     def increase_revenue(self, revenue_to_add: int):
         # - increase the bank revenue by the amount passed as reveneue_to_add
-        self._bank_amount_of_revenue = revenue_to_add
+        self._bank_amount_of_revenue += revenue_to_add
 
     def increase_expenses(self, expenses_to_increase: int):
         # -  increase the bank expenses by the amount passed as expensesToAdd
-        self._bank_amount_of_expenses = expenses_to_increase
+        self._bank_amount_of_expenses += expenses_to_increase
 
     # Done
     def calculate_customer_money(self):
@@ -123,8 +111,6 @@ class Bank:
                 self.increase_expenses(self._bank_amount_of_revenue - customers_money_sum)
             case _:
                 print("Error: This account is with an unrecognized bank.")
-
-
 
 
 if __name__ == '__main__':
